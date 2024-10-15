@@ -1,0 +1,19 @@
+{
+    "out": "docs",
+    "include": [
+      "src/app/**/*"
+    ],
+    "exclude": [
+      "**/*.spec.ts",
+      "**/node_modules/**"
+    ],
+    "theme": "default",
+    "tsconfig": "./tsconfig.json",
+    "entryPoints": [
+      "./src/index.ts"
+    ],
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "includeVersion": true
+  }
+  
