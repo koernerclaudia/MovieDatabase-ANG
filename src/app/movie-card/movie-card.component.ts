@@ -43,7 +43,7 @@ export class MovieCardComponent implements OnInit {
   // Load user's favorite movies from the API
   loadUserFavorites(): void {
     if (this.user.username) {
-      this.fetchApiData.getUserFavoriteMovies(this.user.username).subscribe((resp: any) => {
+      this.fetchApiData.getFavoriteMovies().subscribe((resp: any) => {
         this.favoriteMovies = resp; // Assuming the response is an array of movie IDs
         this.updateLocalStorageFavorites(); // Sync local storage
       });

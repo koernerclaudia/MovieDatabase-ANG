@@ -137,15 +137,20 @@ export class FetchApiDataService {
   }
 
 
-// In fetch-api-data.service.ts
-getUserFavoriteMovies(username: string): Observable<any> {
-  const url = `https://cmdb-b8f3cd58963f.herokuapp.com/users/${username}/FavoriteMovies`;
-  return this.http.get(url, {
-    headers: new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    })
-  });
-}
+  public getFavoriteMovies(): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const token = localStorage.getItem('token');
+    return this.http.get(apiUrl + 'users/' + user._id, {
+      headers: new HttpHeaders(
+        {
+          Authorization: 'Bearer ' + token,
+        })
+    }).pipe(
+      map(this.extractResponseData),
+      map((data) => data.FavoriteMovies),
+      catchError(this.handleError)
+    );
+  }
 }
 
 

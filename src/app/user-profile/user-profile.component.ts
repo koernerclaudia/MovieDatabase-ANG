@@ -13,12 +13,12 @@ import { FetchApiDataService } from '../fetch-api-data.service';
 })
 export class UserProfileComponent implements OnInit {
   user: any = JSON.parse(localStorage.getItem('user') || '{}');
-  movies: any[] = []; // Fetched movie list
+  movie: any[] = []; // Fetched movie list
   movieID: string = ''; // Movie ID to be added to favorites
   userForm: FormGroup;
   username: string = '';
   token: string = localStorage.getItem('token') || '';
-  favoriteMovies: any[] = []; // Array to hold user's favorite movies
+  FavoriteMovies: any[] = []; // Array to hold user's favorite movies
   
   constructor(
     private fetchApiData: FetchApiDataService, 
@@ -36,8 +36,9 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getMovies();
-    this.loadFavoriteMovies();
+    // this.getMovies();
+   
+    // this.loadFavoriteMovies();
     console.log('User data on init:', this.user);
 
    
@@ -47,64 +48,130 @@ export class UserProfileComponent implements OnInit {
 
   
 
-   // Fetch all movies
-   getMovies(): void {
-    this.fetchApiData.getAllMovies().subscribe((resp: any) => {
-      this.movies = resp; // Store all movies
-      console.log('All Movies:', this.movies); // Debugging log
-    }, error => {
-      console.error('Error fetching all movies:', error);  // Catch errors if fetching fails
-    });
-  }
+  //  // Fetch all movies
+  //  getMovies(): void {
+  //   this.fetchApiData.getAllMovies().subscribe((resp: any) => {
+  //     this.movies = resp; // Store all movies
+  //     console.log('All Movies:', this.movies); // Debugging log
+  //   }, error => {
+  //     console.error('Error fetching all movies:', error);  // Catch errors if fetching fails
+  //   });
+  // }
 
+
+  // // Update user profile
+  // updateProfile() {
+  //   const updatedUser: any = {};
+  //   if (this.userForm.get('username')?.value) {
+  //     updatedUser.username = this.userForm.get('username')?.value;
+  //   }
+  //   if (this.userForm.get('password')?.value) {
+  //     updatedUser.password = this.userForm.get('password')?.value;
+  //   }
+  //   if (this.userForm.get('email')?.value) {
+  //     updatedUser.email = this.userForm.get('email')?.value;
+  //   }
+
+  //   if (!Object.keys(updatedUser).length) {
+  //     this.snackBar.open('Please update at least one field.', 'Close', {
+  //       duration: 3000,
+  //     });
+  //     return;
+  //   }
+
+  //   const headers = new HttpHeaders({
+  //     Authorization: `Bearer ${this.token}`,
+  //     'Content-Type': 'application/json',
+  //   });
+
+  //   this.http
+  //     .put(
+  //       `https://cmdb-b8f3cd58963f.herokuapp.com/users/${this.user.username}`,
+  //       updatedUser,
+  //       { headers }
+  //     )
+  //     .subscribe(
+  //       (updatedUser) => {
+  //         this.user = updatedUser;
+  //         localStorage.setItem('user', JSON.stringify(this.user));
+  //         this.snackBar.open('Profile updated successfully!', 'Close', {
+  //           duration: 3000,
+  //         });
+  //       },
+  //       (error) => {
+  //         console.error(error);
+  //         this.snackBar.open('Failed to update profile. Try again.', 'Close', {
+  //           duration: 3000,
+  //         });
+  //       }
+  //     );
+  // }
 
   // Update user profile
-  updateProfile() {
-    const updatedUser: any = {};
-    if (this.userForm.get('username')?.value) {
-      updatedUser.username = this.userForm.get('username')?.value;
-    }
-    if (this.userForm.get('password')?.value) {
-      updatedUser.password = this.userForm.get('password')?.value;
-    }
-    if (this.userForm.get('email')?.value) {
-      updatedUser.email = this.userForm.get('email')?.value;
-    }
+updateProfile() {
+  const updatedUser: any = {};
 
-    if (!Object.keys(updatedUser).length) {
-      this.snackBar.open('Please update at least one field.', 'Close', {
-        duration: 3000,
-      });
-      return;
-    }
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`,
-      'Content-Type': 'application/json',
-    });
-
-    this.http
-      .put(
-        `https://cmdb-b8f3cd58963f.herokuapp.com/users/${this.user.username}`,
-        updatedUser,
-        { headers }
-      )
-      .subscribe(
-        (updatedUser) => {
-          this.user = updatedUser;
-          localStorage.setItem('user', JSON.stringify(this.user));
-          this.snackBar.open('Profile updated successfully!', 'Close', {
-            duration: 3000,
-          });
-        },
-        (error) => {
-          console.error(error);
-          this.snackBar.open('Failed to update profile. Try again.', 'Close', {
-            duration: 3000,
-          });
-        }
-      );
+  // Collect form data to update profile fields
+  if (this.userForm.get('username')?.value) {
+    updatedUser.username = this.userForm.get('username')?.value;
   }
+  if (this.userForm.get('password')?.value) {
+    updatedUser.password = this.userForm.get('password')?.value;
+  }
+  if (this.userForm.get('email')?.value) {
+    updatedUser.email = this.userForm.get('email')?.value;
+  }
+   // Check if the user has favorite movies and display them
+   if (this.user.FavoriteMovies && this.user.FavoriteMovies.length > 0) {
+    this.displayFavoriteMovies(this.user.FavoriteMovies);
+  }
+
+  // If no fields are updated, show a message
+  if (!Object.keys(updatedUser).length) {
+    this.snackBar.open('Please update at least one field.', 'Close', {
+      duration: 3000,
+    });
+    return;
+  }
+
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${this.token}`,
+    'Content-Type': 'application/json',
+  });
+
+  // Make HTTP PUT request to update the user profile
+  this.http
+    .put(
+      `https://cmdb-b8f3cd58963f.herokuapp.com/users/${this.user.username}`,
+      updatedUser,
+      { headers }
+    )
+    .subscribe(
+      (updatedUser: any) => {
+        // Save updated user details
+        this.user = updatedUser;
+        localStorage.setItem('user', JSON.stringify(this.user));
+
+        this.snackBar.open('Profile updated successfully!', 'Close', {
+          duration: 3000,
+        });
+
+      },
+      (error) => {
+        console.error(error);
+        this.snackBar.open('Failed to update profile. Try again.', 'Close', {
+          duration: 3000,
+        });
+      }
+    );
+}
+
+// Method to display favorite movies
+displayFavoriteMovies(FavoriteMovies: string[]) {
+  // Logic to display the favorite movies in a component
+  // You could pass this to a template, store in a component variable, etc.
+  console.log('User favorite movies:', FavoriteMovies);
+}
 
 
  // Deregister account
@@ -145,24 +212,24 @@ logoutUser(): void {
 }
 
 
-loadFavoriteMovies(): void {
-  console.log('Fetching favorite movies for user:', this.user.username); // Debug: Log username
-  if (this.user.username) {
-    this.fetchApiData.getUserFavoriteMovies(this.user.username).subscribe((resp: any) => {
-      this.favoriteMovies = this.movies.filter(movie => resp.includes(movie._id)); // Find full movie details from all movies
-      console.log('Favorite Movies List with Details:', this.favoriteMovies);  // Debug: Check if favoriteMovies now has full movie objects
-    }, error => {
-      console.error('Error fetching favorite movies:', error);  // Catch errors if fetching fails
-    });
-  }
-}
+// loadFavoriteMovies(): void {
+//   console.log('Fetching favorite movies for user:', this.user.username); // Debug: Log username
+//   if (this.user.username) {
+//     this.fetchApiData.getFavoriteMovies().subscribe((resp: any) => {
+//       this.favoriteMovies = this.movies.filter(movie => resp.includes(movie._id)); // Find full movie details from all movies
+//       console.log('Favorite Movies List with Details:', this.favoriteMovies);  // Debug: Check if favoriteMovies now has full movie objects
+//     }, error => {
+//       console.error('Error fetching favorite movies:', error);  // Catch errors if fetching fails
+//     });
+//   }
+// }
 
 
 
 removeFromFavorites(movieId: string): void {
   this.fetchApiData.removeMovieFromFavorites(this.user.username, movieId).subscribe((response: any) => {
     console.log('Movie removed from favorites:', response);  // Debugging log
-    this.favoriteMovies = this.favoriteMovies.filter(movie => movie._id !== movieId); // Update local state
+    this.FavoriteMovies = this.FavoriteMovies.filter(movie => movie._id !== movieId); // Update local state
     this.updateLocalStorageFavorites();
   }, (error: any) => {
     console.error('Error removing movie from favorites:', error);  // Log error in case it fails
@@ -171,71 +238,11 @@ removeFromFavorites(movieId: string): void {
 
 updateLocalStorageFavorites(): void {
   const user = JSON.parse(localStorage.getItem('user') || '{}');
-  console.log('Updated favorite movies in localStorage:', this.favoriteMovies); // Debugging log
-  user.FavoriteMovies = this.favoriteMovies.map(movie => movie._id); // Update with current favorite movie IDs
+  console.log('Updated favorite movies in localStorage:', this.FavoriteMovies); // Debugging log
+  user.FavoriteMovies = this.FavoriteMovies.map(movie => movie._id); // Update with current favorite movie IDs
   localStorage.setItem('user', JSON.stringify(user));
 }
 }
 
 
 
-// // Remove movie from favorites
-// removeFavorite(movieId: string) {
-//   const headers = new HttpHeaders({
-//     Authorization: `Bearer ${this.token}`,
-//   });
-
-//   this.http
-//     .delete(
-//       `https://cmdb-b8f3cd58963f.herokuapp.com/users/${this.user.username}/movies/${movieId}`,
-//       { headers }
-//     )
-//     .subscribe(
-//       (response) => {
-//         this.FavoriteMovies = this.FavoriteMovies.filter(
-//           (movie) => movie._id !== movieId
-//         );
-//         this.snackBar.open('Movie removed from favorites.', 'Close', {
-//           duration: 3000,
-//         });
-//       },
-//       (error) => {
-//         console.error(error);
-//         this.snackBar.open('Failed to remove movie.', 'Close', {
-//           duration: 3000,
-//         });
-//       }
-//     );
-// }
-
-  // // Load user's favorite movies from the API
-  // loadUserFavorites(): void {
-  //   if (this.user.username) {
-  //     this.fetchApiData.getUserFavoriteMovies(this.user.username).subscribe((resp: any) => {
-  //       this.FavoriteMovies = resp; // Assuming response is an array of movie IDs
-  //       console.log('User Favorite Movies:', this.FavoriteMovies); // Debugging log
-  //       this.filterFavoriteMovies(); // Filter movies based on favorites
-  //     });
-  //   }
-  // }
-
-  // // Filter movies to display only the user's favorites
-  // filterFavoriteMovies(): void {
-  //   this.FavoriteMovies = this.movies.filter(movie => 
-  //     this.FavoriteMovies.includes(movie._id)
-  //   );
-  // }
-
-
-
-
-
-
-
-
-
-
-  //   updateLocalStorageFavorites(): void {
-  //   const updatedUser = { ...this.user, FavoriteMovies: this.FavoriteMovies };
-  //   localStorage.setItem('user', JSON.stringify(updatedUser));
-  // }
