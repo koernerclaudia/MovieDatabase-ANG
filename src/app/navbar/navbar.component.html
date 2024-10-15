@@ -1,0 +1,48 @@
+<!-- 
+  Serves as the main vehicle for navigation throughout the app. Provides links for the user to go to the main movie view, profile view, and logout
+ -->
+
+ <div class="nav">
+    <div class="nav_container">
+      <button 
+        mat-button
+        color="primary"
+        routerLink="/movies" 
+        class="nav_title"
+      >
+      CMDB
+      </button>
+  
+      <div class="nav_buttons">
+  
+        <button 
+          mat-button
+          color="primary"
+          routerLink="/movies" 
+          class="profile"
+        >
+                  Browse Movies
+              </button>
+
+        <button 
+          mat-button
+          color="primary"
+          routerLink="/profile" 
+          class="profile"
+        >
+                  My Profile
+              </button>
+            
+        <button
+          mat-button
+          color="primary"
+          class="logout" 
+          (click)="logoutUser()" 
+          routerLink="/"
+        >
+          Logout
+        </button>
+  
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,64 @@
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @media(min-width: 760px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .user-info, .user-form {
+    flex: 1;
+    margin: 16px;
+  }
+
+  .user-favourites {
+    margin-top: 16px;
+  }
+
+  .movie-card {
+    margin: 8px 0;
+  }
+}
+
+
+.custom-card {
+  border-radius: 16px; /* Round corners */
+  overflow: hidden;    /* Ensures child elements like image stay within bounds */
+  flex: 1 1 auto; 
+  width: 300px; 
+  margin: 10px; 
+  height: 450px;
+  padding-bottom: 10px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2em;
+}
+
+p {
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 1.2em;
+}
+
+img {
+  object-fit: cover;
+width: 100%;   /* Ensures the image takes up the full width of the container */
+height: 50%; /* Sets a specific height for the image container */
+object-position: top;
+}
+
+mat-card-content {
+  padding: 16px;
+  flex-grow: 1;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-around;  /* Align the icons next to each other */
+  padding: 5px 10px;
+}

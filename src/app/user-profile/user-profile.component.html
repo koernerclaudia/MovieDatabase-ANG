@@ -1,0 +1,95 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="row">
+    <!-- Part 1: Profile Information  -->
+    <div class="col-12 col-md-6 mt-3">
+      <mat-card class="bg-dark text-white">
+        <mat-card-title>Profile Information</mat-card-title>
+        <div class="profile-info">
+          <p><strong>Username:</strong> {{ user.username }}</p>
+          <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+      </mat-card>
+    </div>
+  
+     <!-- Part 2: Change Profile Information -->
+    <div class="col-12 col-md-6 mt-3">
+      <mat-card class="bg-dark text-white">
+        <mat-card-title>Change Your Info</mat-card-title>
+        <form [formGroup]="userForm" (ngSubmit)="updateProfile()">
+          <mat-form-field appearance="fill">
+            <mat-label>Change Username</mat-label>
+            <input matInput formControlName="username" />
+          </mat-form-field>
+  
+          <mat-form-field appearance="fill">
+            <mat-label>Change Password</mat-label>
+            <input matInput type="password" formControlName="password" />
+          </mat-form-field>
+  
+          <mat-form-field appearance="fill">
+            <mat-label>Change Email</mat-label>
+            <input matInput formControlName="email" />
+          </mat-form-field>
+  
+          <button mat-raised-button color="primary" type="submit">Update Profile</button>
+        </form>
+  
+        <button mat-raised-button color="warn" (click)="deleteAccount()">Delete Account</button>
+      </mat-card>
+    </div>
+  </div>
+
+  <div *ngIf="favoriteMovies.length > 0; else noFavorites">
+    <h2>Favorite Movies</h2>
+    <div *ngFor="let movie of favoriteMovies" class="movie-card">
+      <h4>{{ movie.Title }}</h4>
+      <button (click)="removeFromFavorites(movie._id)">Remove</button>
+    </div>
+  </div>
+  <ng-template #noFavorites>
+    <p>No favorite movies found.</p>
+  </ng-template>
+
+<!-- Part 3: User's Favorite Movies -->
+<!-- <h3>Favorite Movies</h3>
+<div *ngIf="FavoriteMovies.length > 0">No favorite movies found.</div>
+<div *ngFor="let movie of FavoriteMovies">
+  <app-movie-card [movie]="movie">
+    <div style="display: flex; flex-wrap: wrap;">
+      <mat-card class="custom-card" *ngFor="let movie of movies;">
+        <img [src]="movie.ImageURL" />
+    
+        <mat-card-content>
+          <h2>{{movie.Title}}</h2>
+          <p>Directed by: {{movie.Director.Name}}</p>
+          <p>Main Actors: {{movie.Actors}}</p>
+          <p>Genre: {{movie.Genre.Type}}</p>
+        </mat-card-content>
+    
+        <mat-card-actions> -->
+          <!-- <button mat-icon-button (click)="openGenreDialog(movie.Genre)" aria-label="Genre" matTooltip="Genre"
+            matTooltipPosition="below" matTooltipDelay="300">
+            <mat-icon>category</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openDirectorDialog(movie.Director)" aria-label="Director" matTooltip="Director"
+            matTooltipPosition="below" matTooltipDelay="300">
+            <mat-icon>movie</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openSynopsisDialog(movie.Description)" aria-label="Synopsis"
+            matTooltip="Synopsis" matTooltipPosition="below" matTooltipDelay="300">
+            <mat-icon>description</mat-icon>
+          </button>
+          <button mat-icon-button (click)="toggleFavorite(movie._id)">
+            <mat-icon *ngIf="isFavorite(movie._id)">favorite</mat-icon>
+            <mat-icon *ngIf="!isFavorite(movie._id)">favorite_border</mat-icon>
+          </button> -->
+        <!-- </mat-card-actions>
+      </mat-card>
+    
+    </div>
+  </app-movie-card>
+</div> -->
+
+
+  
