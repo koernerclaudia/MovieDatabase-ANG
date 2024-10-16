@@ -13,12 +13,16 @@ import { FetchApiDataService } from '../fetch-api-data.service';
 })
 export class UserProfileComponent implements OnInit {
   user: any = JSON.parse(localStorage.getItem('user') || '{}');
+  // user: any = null; // Initialize user
   movies: any[] = []; // Fetched movie list
+  movie: any = {}; // Movie object to be added to favorites
   movieID: string = ''; // Movie ID to be added to favorites
   userForm: FormGroup;
   username: string = '';
   token: string = localStorage.getItem('token') || '';
   FavoriteMovies: any[] = []; // Array to hold user's favorite movies
+  FavoriteMovieIDs: string[] = []; // Store only IDs of favorite movies
+
   
   constructor(
     private fetchApiData: FetchApiDataService, 
@@ -36,76 +40,40 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getMovies();
-   
+    this.checkLocalStorage();
+    console.log('local storage:', this.user);
     this.loadFavoriteMovies();
     console.log('User data on init:', this.user);
-
-   
-    
   }
 
 
-  
+  private checkLocalStorage() {
+    // Only access localStorage in a browser environment
+    if (typeof window !== 'undefined') {
+      this.user = JSON.parse(localStorage.getItem('user') || '{}');
+      this.token = localStorage.getItem('token') || '';
+      // this.loadFavoriteMovies(); // Load favorite movies if needed
+    }
+  }
 
-  //  // Fetch all movies
-  //  getMovies(): void {
-  //   this.fetchApiData.getAllMovies().subscribe((resp: any) => {
-  //     this.movies = resp; // Store all movies
-  //     console.log('All Movies:', this.movies); // Debugging log
-  //   }, error => {
-  //     console.error('Error fetching all movies:', error);  // Catch errors if fetching fails
-  //   });
-  // }
+  private loadFavoriteMovies() {
+    const favorites = this.user.FavoriteMovies || []; // Use user object to get FavoriteMovies
+    if (favorites && favorites.length > 0) {
+      this.FavoriteMovieIDs = favorites; // Store IDs in an array
+      this.fetchFavoriteMoviesDetails(); // Fetch movie details based on IDs
+    }
+  }
 
+  private fetchFavoriteMoviesDetails() {
+    const movieRequests = this.FavoriteMovieIDs.map(id => this.fetchApiData.getMovieByTitle(this.movie.Title)); // Using id directly
+    Promise.all(movieRequests).then(movies => {
+        this.FavoriteMovies = movies; // Assign the fetched movies
+        console.log('Fetched favorite movies:', this.FavoriteMovies);
+    }).catch(error => {
+        console.error('Error fetching favorite movies:', error);
+    });
+}
 
-  // // Update user profile
-  // updateProfile() {
-  //   const updatedUser: any = {};
-  //   if (this.userForm.get('username')?.value) {
-  //     updatedUser.username = this.userForm.get('username')?.value;
-  //   }
-  //   if (this.userForm.get('password')?.value) {
-  //     updatedUser.password = this.userForm.get('password')?.value;
-  //   }
-  //   if (this.userForm.get('email')?.value) {
-  //     updatedUser.email = this.userForm.get('email')?.value;
-  //   }
-
-  //   if (!Object.keys(updatedUser).length) {
-  //     this.snackBar.open('Please update at least one field.', 'Close', {
-  //       duration: 3000,
-  //     });
-  //     return;
-  //   }
-
-  //   const headers = new HttpHeaders({
-  //     Authorization: `Bearer ${this.token}`,
-  //     'Content-Type': 'application/json',
-  //   });
-
-  //   this.http
-  //     .put(
-  //       `https://cmdb-b8f3cd58963f.herokuapp.com/users/${this.user.username}`,
-  //       updatedUser,
-  //       { headers }
-  //     )
-  //     .subscribe(
-  //       (updatedUser) => {
-  //         this.user = updatedUser;
-  //         localStorage.setItem('user', JSON.stringify(this.user));
-  //         this.snackBar.open('Profile updated successfully!', 'Close', {
-  //           duration: 3000,
-  //         });
-  //       },
-  //       (error) => {
-  //         console.error(error);
-  //         this.snackBar.open('Failed to update profile. Try again.', 'Close', {
-  //           duration: 3000,
-  //         });
-  //       }
-  //     );
-  // }
 
   // Update user profile
 updateProfile() {
@@ -169,42 +137,41 @@ updateProfile() {
     );
 }
 
-// // Method to display favorite movies
-// displayFavoriteMovies(FavoriteMovies: string[]) {
-//   // Logic to display the favorite movies in a component
-//   // You could pass this to a template, store in a component variable, etc.
-//   console.log('User favorite movies:', FavoriteMovies);
-// }
-
-
  // Deregister account
 async deleteAccount() {
-  if (confirm('Are you sure you want to delete your account?')) {
+  if (confirm('Are you sure you want to delete your account? You will be logged out and your data will be lost.')) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`,
     });
-
+    console.log('Attempting to delete account for user:', this.user.username); // Log the username
     try {
       // Await the HTTP delete request
       await this.http
         .delete(`https://cmdb-b8f3cd58963f.herokuapp.com/users/${this.user.username}`, { headers })
         .toPromise(); // Convert the Observable to a Promise
+        localStorage.clear();
+        console.log('Account deletion successful. Logging out user.'); // Log success of account deletion
 
       // If the request is successful, log the user out
       this.logoutUser(); // Call logoutUser to handle logout
+      console.log('User logged out successfully.'); // Log confirmation of logout
       this.snackBar.open('Account deleted successfully.', 'Close', {
         duration: 3000,
         panelClass: ['custom-snackbar', 'mat-elevation-z4']
       });
+
       this.router.navigate(['/signup']); // Redirect after logout
     } catch (error) {
-      console.error(error);
+      console.error('Error deleting account:', error); // Log the error message
       this.snackBar.open('Failed to delete account. Try again.', 'Close', {
         duration: 3000,
         panelClass: ['custom-snackbar', 'mat-elevation-z4']
       });
     }
+  } else {
+    console.log('Account deletion was cancelled by the user.'); // Log if user cancels
   }
+    
 }
 
 // Logs the user out of the system and sends them back to the welcome view
@@ -216,20 +183,6 @@ logoutUser(): void {
     panelClass: ['custom-snackbar', 'mat-elevation-z4']
   });
 }
-
-
-loadFavoriteMovies(): void {
-  console.log('Fetching favorite movies for user:', this.user.username); // Debug: Log username
-  if (this.user.username) {
-    this.fetchApiData.getFavoriteMovies().subscribe((resp: any) => {
-      this.FavoriteMovies = this.movies.filter(movie => resp.includes(movie._id)); // Find full movie details from all movies
-      console.log('Favorite Movies List with Details:', this.FavoriteMovies);  // Debug: Check if favoriteMovies now has full movie objects
-    }, error => {
-      console.error('Error fetching favorite movies:', error);  // Catch errors if fetching fails
-    });
-  }
-}
-
 
 
 removeFromFavorites(movieId: string): void {

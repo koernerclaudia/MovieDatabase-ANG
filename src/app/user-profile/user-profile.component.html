@@ -47,18 +47,18 @@
 <div class="col-item mt-3">
   <mat-card style="padding: 15px; background-color: black; border-radius: 15px; margin: 15px auto; max-width: 600px;">
     <mat-card-title>Your Favorite Movies:</mat-card-title>
-<mat-card-content>
-    <!-- If there are favorite movies, display the list -->
-    <div *ngIf="FavoriteMovies.length > 0">
-      <ul>
-        <li *ngFor="let movie of FavoriteMovies">{{ movie.Title }}</li>
-      </ul>
-    </div>
+    <mat-card-content>
+      <!-- If there are favorite movies, display the list -->
+      <div *ngIf="FavoriteMovies.length > 0">
+        <ul>
+          <li *ngFor="let movie of FavoriteMovies">{{ movie.Title }}</li>
+        </ul>
+      </div>
 
-    <!-- If there are no favorite movies, display a message -->
-    <div *ngIf="FavoriteMovies.length === 0">
-      <p>You don't have any favorite movies.</p>
-    </div>
+      <!-- If there are no favorite movies, display a message -->
+      <div *ngIf="FavoriteMovies.length === 0">
+        <p>You don't have any favorite movies.</p>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

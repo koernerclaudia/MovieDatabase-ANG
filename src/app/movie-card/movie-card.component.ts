@@ -12,8 +12,9 @@ import { MovieDetailsComponent } from '../movie-details/movie-details.component'
 })
 export class MovieCardComponent implements OnInit {
   movies: any[] = [];
-  favoriteMovies: string[] = []; // Store user's favorite movies
+  FavoriteMovies: string[] = []; // Store user's favorite movies
   user: any = JSON.parse(localStorage.getItem('user') || '{}');
+  token: string = localStorage.getItem('token') || '';
 
   constructor(
     public fetchApiData: FetchApiDataService, 
@@ -21,9 +22,20 @@ export class MovieCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.checkLocalStorage();
+    console.log('local storage:', this.user);
     this.loadFavoritesFromLocalStorage();
     this.getMovies();
     this.loadUserFavorites(); // Load favorites from the API
+  }
+
+  private checkLocalStorage() {
+    // Only access localStorage in a browser environment
+    if (typeof window !== 'undefined') {
+      this.user = JSON.parse(localStorage.getItem('user') || '{}');
+      this.token = localStorage.getItem('token') || '';
+      this.loadFavoritesFromLocalStorage(); // Load favorite movies if needed
+    }
   }
 
   getMovies(): void {
@@ -37,14 +49,14 @@ export class MovieCardComponent implements OnInit {
   // Load favorite movies from local storage
   loadFavoritesFromLocalStorage(): void {
     const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
-    this.favoriteMovies = storedUser.FavoriteMovies || [];
+    this.FavoriteMovies = storedUser.FavoriteMovies || [];
   }
 
   // Load user's favorite movies from the API
   loadUserFavorites(): void {
     if (this.user.username) {
       this.fetchApiData.getFavoriteMovies().subscribe((resp: any) => {
-        this.favoriteMovies = resp; // Assuming the response is an array of movie IDs
+        this.FavoriteMovies = resp; // Assuming the response is an array of movie IDs
         this.updateLocalStorageFavorites(); // Sync local storage
       });
     }
@@ -99,13 +111,13 @@ export class MovieCardComponent implements OnInit {
 
   // Check if a movie is in the user's list of favorite movies
   isFavorite(movieId: string): boolean {
-    return this.favoriteMovies.includes(movieId);
+    return this.FavoriteMovies.includes(movieId);
   }
 
   // Add a movie to the user's favorites
   addMovieToFavorites(movieId: string): void {
-    if (!this.favoriteMovies.includes(movieId)) {
-      this.favoriteMovies.push(movieId);
+    if (!this.FavoriteMovies.includes(movieId)) {
+      this.FavoriteMovies.push(movieId);
       // Call the API to add the movie to favorites
       this.fetchApiData.addMovieToFavorites(this.user.username, movieId).subscribe((response: any) => {
         console.log('Movie added to favorites:', response);
@@ -119,9 +131,9 @@ export class MovieCardComponent implements OnInit {
   // Remove a movie from the user's favorites
   removeFromFavorites(movieId: string): void {
     this.fetchApiData.removeMovieFromFavorites(this.user.username, movieId).subscribe((response: any) => {
-      const index = this.favoriteMovies.indexOf(movieId);
+      const index = this.FavoriteMovies.indexOf(movieId);
       if (index > -1) {
-        this.favoriteMovies.splice(index, 1);
+        this.FavoriteMovies.splice(index, 1);
         this.updateLocalStorageFavorites(); // Sync local storage
         console.log('Movie removed from favorites:', response);
       }
@@ -131,7 +143,7 @@ export class MovieCardComponent implements OnInit {
   // Update local storage with current favorites
   updateLocalStorageFavorites(): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-    user.FavoriteMovies = this.favoriteMovies;
+    user.FavoriteMovies = this.FavoriteMovies;
     localStorage.setItem('user', JSON.stringify(user));
   }
 }

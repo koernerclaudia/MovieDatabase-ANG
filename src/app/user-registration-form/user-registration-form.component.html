@@ -5,7 +5,7 @@
     </mat-card-header>
     <mat-card-content>
       <form>
-        <mat-form-field style="width: 95%;">
+        <mat-form-field  matinput>
           <input
             matinput
             [(ngModel)]="userData.username"
@@ -16,7 +16,7 @@
             class="matinput"
           >
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field  matinput>
           <input
             matinput
             [(ngModel)]="userData.password"
@@ -27,7 +27,7 @@
             class="matinput"
           >
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field  matinput>
           <input
             matinput
             [(ngModel)]="userData.email"
