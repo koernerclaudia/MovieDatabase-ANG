@@ -2,6 +2,7 @@
     box-sizing: border-box; /* Include padding and border in element's total width and height */
     color: #ffffff; /* Default text color */
     font-family: Arial, Helvetica, sans-serif; /* Default font */
+    margin: auto;
    
   img {
     max-width: 100%; /* Responsive images */
@@ -11,7 +12,6 @@
   html, body {
     font-family: 'Roboto', sans-serif; /* Use Roboto font */
     color: #ffffff;
-    margin: 10px 50px;
     background-image: url('/src/assets/img/hollywood.jpg');
     align-items: center; /* Center horizontally */
   

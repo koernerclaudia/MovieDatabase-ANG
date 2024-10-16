@@ -1,50 +1,64 @@
 <app-nav-bar></app-nav-bar>
 
-<div class="row">
-    <!-- Part 1: Profile Information  -->
-    <div class="col-12 col-md-6 mt-3">
-      <mat-card class="bg-dark text-white">
-        <mat-card-title>Profile Information</mat-card-title>
-        <div class="profile-info">
-          <p><strong>Username:</strong> {{ user.username }}</p>
-          <p><strong>Email:</strong> {{ user.email }}</p>
-        </div>
-      </mat-card>
-    </div>
-
-
-     Part 2: Change Profile Information
-    <div class="col-12 col-md-6 mt-3">
-      <mat-card class="bg-dark text-white">
-        <mat-card-title>Change Your Info</mat-card-title>
-        <form [formGroup]="userForm" (ngSubmit)="updateProfile()">
-          <mat-form-field appearance="fill">
-            <mat-label>Change Username</mat-label>
-            <input matInput formControlName="username" />
-          </mat-form-field>
-  
-          <mat-form-field appearance="fill">
-            <mat-label>Change Password</mat-label>
-            <input matInput type="password" formControlName="password" />
-          </mat-form-field>
-  
-          <mat-form-field appearance="fill">
-            <mat-label>Change Email</mat-label>
-            <input matInput formControlName="email" />
-          </mat-form-field>
-  
-          <button mat-raised-button color="primary" type="submit">Update Profile</button>
-        </form>
-  
-        <button mat-raised-button color="warn" (click)="deleteAccount()">Delete Account</button>
-      </mat-card>
-    </div>
+<div>
+  <!-- Part 1: Profile Information  -->
+  <div class="col-item mt-3">
+    <mat-card style="padding: 15px; background-color: black; border-radius: 15px; margin: 15px auto; max-width: 600px;">
+      <mat-card-title>Profile Information</mat-card-title>
+      <mat-card-content class="profile-info">
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+      </mat-card-content>
+    </mat-card>
   </div>
 
-<!-- In your template (HTML file) -->
-<div *ngIf="FavoriteMovies.length > 0">
-  <h3>Your Favorite Movies:</h3>
-  <ul>
-    <li *ngFor="let movie of FavoriteMovies">{{ movie.Title }}</li>
-  </ul>
+  <!-- Part 2: Change Profile Information -->
+  <div class="col-item mt-3">
+    <mat-card style="padding: 15px; background-color: black; border-radius: 15px; margin: 15px auto; max-width: 600px;">
+      <mat-card-title>Change Your Info</mat-card-title>
+      <mat-card-content>
+      <form [formGroup]="userForm" (ngSubmit)="updateProfile()" class="form-container">
+        <mat-form-field appearance="fill" >
+          <mat-label>Change Username</mat-label>
+          <input matInput formControlName="username" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Change Password</mat-label>
+          <input matInput type="password" formControlName="password" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Change Email</mat-label>
+          <input matInput formControlName="email" />
+        </mat-form-field>
+        <mat-card-actions class="button-container">
+        <button mat-raised-button class="custom-button" type="submit" >Update Profile</button>
+        <button mat-raised-button class="custom-button" (click)="deleteAccount()">Delete Account</button>
+      </mat-card-actions>
+      </form>
+      </mat-card-content>
+
+      
+    </mat-card>
+  </div>
+</div>
+
+<div class="col-item mt-3">
+  <mat-card style="padding: 15px; background-color: black; border-radius: 15px; margin: 15px auto; max-width: 600px;">
+    <mat-card-title>Your Favorite Movies:</mat-card-title>
+<mat-card-content>
+    <!-- If there are favorite movies, display the list -->
+    <div *ngIf="FavoriteMovies.length > 0">
+      <ul>
+        <li *ngFor="let movie of FavoriteMovies">{{ movie.Title }}</li>
+      </ul>
+    </div>
+
+    <!-- If there are no favorite movies, display a message -->
+    <div *ngIf="FavoriteMovies.length === 0">
+      <p>You don't have any favorite movies.</p>
+    </div>
+    </mat-card-content>
+  </mat-card>
 </div>

@@ -13,7 +13,7 @@ import { FetchApiDataService } from '../fetch-api-data.service';
 })
 export class UserProfileComponent implements OnInit {
   user: any = JSON.parse(localStorage.getItem('user') || '{}');
-  movie: any[] = []; // Fetched movie list
+  movies: any[] = []; // Fetched movie list
   movieID: string = ''; // Movie ID to be added to favorites
   userForm: FormGroup;
   username: string = '';
@@ -38,7 +38,7 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     // this.getMovies();
    
-    // this.loadFavoriteMovies();
+    this.loadFavoriteMovies();
     console.log('User data on init:', this.user);
 
    
@@ -122,14 +122,15 @@ updateProfile() {
     updatedUser.email = this.userForm.get('email')?.value;
   }
    // Check if the user has favorite movies and display them
-   if (this.user.FavoriteMovies && this.user.FavoriteMovies.length > 0) {
-    this.displayFavoriteMovies(this.user.FavoriteMovies);
-  }
+  //  if (this.user.FavoriteMovies && this.user.FavoriteMovies.length > 0) {
+  //   this.displayFavoriteMovies(this.user.FavoriteMovies);
+  // }
 
   // If no fields are updated, show a message
   if (!Object.keys(updatedUser).length) {
     this.snackBar.open('Please update at least one field.', 'Close', {
       duration: 3000,
+      panelClass: ['custom-snackbar', 'mat-elevation-z4']
     });
     return;
   }
@@ -154,6 +155,7 @@ updateProfile() {
 
         this.snackBar.open('Profile updated successfully!', 'Close', {
           duration: 3000,
+          panelClass: ['custom-snackbar', 'mat-elevation-z4']
         });
 
       },
@@ -161,17 +163,18 @@ updateProfile() {
         console.error(error);
         this.snackBar.open('Failed to update profile. Try again.', 'Close', {
           duration: 3000,
+          panelClass: ['custom-snackbar', 'mat-elevation-z4']
         });
       }
     );
 }
 
-// Method to display favorite movies
-displayFavoriteMovies(FavoriteMovies: string[]) {
-  // Logic to display the favorite movies in a component
-  // You could pass this to a template, store in a component variable, etc.
-  console.log('User favorite movies:', FavoriteMovies);
-}
+// // Method to display favorite movies
+// displayFavoriteMovies(FavoriteMovies: string[]) {
+//   // Logic to display the favorite movies in a component
+//   // You could pass this to a template, store in a component variable, etc.
+//   console.log('User favorite movies:', FavoriteMovies);
+// }
 
 
  // Deregister account
@@ -191,12 +194,14 @@ async deleteAccount() {
       this.logoutUser(); // Call logoutUser to handle logout
       this.snackBar.open('Account deleted successfully.', 'Close', {
         duration: 3000,
+        panelClass: ['custom-snackbar', 'mat-elevation-z4']
       });
       this.router.navigate(['/signup']); // Redirect after logout
     } catch (error) {
       console.error(error);
       this.snackBar.open('Failed to delete account. Try again.', 'Close', {
         duration: 3000,
+        panelClass: ['custom-snackbar', 'mat-elevation-z4']
       });
     }
   }
@@ -208,21 +213,22 @@ logoutUser(): void {
   this.router.navigate(['welcome']); // routes to the 'movie-card' view
   this.snackBar.open("You've been logged out", 'OK', {
     duration: 2000,
+    panelClass: ['custom-snackbar', 'mat-elevation-z4']
   });
 }
 
 
-// loadFavoriteMovies(): void {
-//   console.log('Fetching favorite movies for user:', this.user.username); // Debug: Log username
-//   if (this.user.username) {
-//     this.fetchApiData.getFavoriteMovies().subscribe((resp: any) => {
-//       this.favoriteMovies = this.movies.filter(movie => resp.includes(movie._id)); // Find full movie details from all movies
-//       console.log('Favorite Movies List with Details:', this.favoriteMovies);  // Debug: Check if favoriteMovies now has full movie objects
-//     }, error => {
-//       console.error('Error fetching favorite movies:', error);  // Catch errors if fetching fails
-//     });
-//   }
-// }
+loadFavoriteMovies(): void {
+  console.log('Fetching favorite movies for user:', this.user.username); // Debug: Log username
+  if (this.user.username) {
+    this.fetchApiData.getFavoriteMovies().subscribe((resp: any) => {
+      this.FavoriteMovies = this.movies.filter(movie => resp.includes(movie._id)); // Find full movie details from all movies
+      console.log('Favorite Movies List with Details:', this.FavoriteMovies);  // Debug: Check if favoriteMovies now has full movie objects
+    }, error => {
+      console.error('Error fetching favorite movies:', error);  // Catch errors if fetching fails
+    });
+  }
+}
 
 
 

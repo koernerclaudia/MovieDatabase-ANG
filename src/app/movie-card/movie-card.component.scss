@@ -37,3 +37,28 @@ p {
     justify-content: space-around;  /* Align the icons next to each other */
     padding: 5px 10px;
   }
+
+  .cards {
+    display: flex;
+    flex-wrap: wrap; /* Wrap cards to next row */
+    justify-content: center; /* Center cards horizontally */
+    gap: 10px; /* Space between cards */
+  }
+
+    /* Responsive Styles */
+    @media (max-width: 500px) {
+      div {padding: 5px;
+      margin:auto}
+
+      .custom-card {
+        border-radius: 16px; /* Round corners */
+        overflow: hidden;    /* Ensures child elements like image stay within bounds */
+        flex: 1 1 auto; 
+        width: 100%; 
+        margin: 10px; 
+        height: 450px;
+        padding-bottom: 10px;
+      }
+
+
+    }

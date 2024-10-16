@@ -12,6 +12,11 @@ export class NavBarComponent implements OnInit {
     public router: Router, // You have to add this line to be able to use 'router'
     public snackBar: MatSnackBar
   ) {}
+  menuOpen: boolean = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 
   ngOnInit(): void {}
 
