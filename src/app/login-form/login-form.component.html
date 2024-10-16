@@ -1,11 +1,12 @@
 <!-- src/app/login-form/login-form.component.html -->
-<mat-card>
+
+<mat-card style="padding: 15px; background-color: black; border-radius: 15px;">
     <mat-card-header>
       <mat-card-title>Login!</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form>
-        <mat-form-field>
+        <mat-form-field style="width: 95%;">
           <input
             matinput
             [(ngModel)]="userData.username"
@@ -33,7 +34,7 @@
         <button
           mat-raised-button
           (click)="loginUser()"
-          color="primary"
+          class="custom-button"
         >
          Login
         </button>

@@ -1,1 +1,59 @@
-@import url(../../styles.scss);
+* {
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    color: #ffffff; /* Default text color */
+    font-family: Arial, Helvetica, sans-serif; /* Default font */
+   
+  img {
+    max-width: 100%; /* Responsive images */
+    height: auto; /* Prevent image distortion */
+  }
+  
+  html, body {
+    font-family: 'Roboto', sans-serif; /* Use Roboto font */
+    color: #ffffff;
+    margin: 10px 50px;
+    background-image: url('/src/assets/img/hollywood.jpg');
+    align-items: center; /* Center horizontally */
+  
+  }
+  
+  .main-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    height: 100vh; /* Full viewport height */
+    text-align: center; /* Center text */
+
+  }
+  
+  .logo {
+    width: 40px;
+    height: auto;
+    align-items: center; /* Center horizontally */
+    margin: 30px;
+  }
+  
+  .button-container {
+    display: flex; /* Align buttons in a row */
+    gap: 25px; /* Space between buttons */
+    color: #ffffff;
+  }
+  
+  .custom-button {
+    background-color: #6200ea; /* Custom background color */
+    color: #ffffff; /* Custom text color */
+    transition: background-color 0.3s, transform 0.2s; /* Transition effects */
+  }
+  
+  .custom-button:hover {
+    background-color: #3700b3; /* Darker shade on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+  }
+  
+  .custom-button:active {
+    background-color: #6200ea; /* Maintain original color on active */
+    transform: scale(0.95); /* Slightly shrink on active */
+  }
+  
+}

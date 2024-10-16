@@ -1,7 +1,17 @@
 
-<div style="text-align: center">
-  <h2>{{ data.Name }}</h2>
-  <p>{{ data.Description }}</p>
-
-  <button mat-button color="primary" (click)="closeDialog()">Close</button>
-</div>
+<mat-card>
+	<mat-card-header>
+	  <mat-card-title>
+		<h5>Title: {{ data.Name }}</h5> <!-- Access movie.movie -->
+	  </mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+	  Blurb: {{ data.Description }} <!-- Same here, movie.movie -->
+	</mat-card-content>
+	<br />
+	<mat-card-actions>
+	  <button mat-raised-button color="primary" (click)="closeDialog()">
+		Close
+	  </button>
+	</mat-card-actions>
+  </mat-card>

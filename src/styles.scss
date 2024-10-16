@@ -6,6 +6,7 @@
 
 }
 
+
 html, body {
   font-family: 'Roboto', sans-serif; /* Use Roboto font */
   background-color: #292929;
@@ -29,25 +30,3 @@ html, body {
   margin: 30px;
 }
 
-.button-container {
-  display: flex; /* Align buttons in a row */
-  gap: 10px; /* Space between buttons */
-  color: #ffffff;
-}
-
-.custom-button {
-  background-color: #6200ea; /* Custom background color */
-  color: #ffffff; /* Custom text color */
-  transition: background-color 0.3s, transform 0.2s; /* Transition effects */
-  border-radius: 5px;
-}
-
-.custom-button:hover {
-  background-color: #3700b3; /* Darker shade on hover */
-  transform: scale(1.05); /* Slightly enlarge on hover */
-}
-
-.custom-button:active {
-  background-color: #6200ea; /* Maintain original color on active */
-  transform: scale(0.95); /* Slightly shrink on active */
-}

@@ -1,5 +1,26 @@
 .mat-card {
+    width: 120px;
     color: white;
     z-index: 100;
-    margin: 0;
-}
+    height: auto;
+    padding: 20px
+  }
+
+  .custom-button {
+    background-color: #6200ea; /* Custom background color */
+    color: #ffffff; /* Custom text color */
+    transition: background-color 0.3s, transform 0.2s; /* Transition effects */
+    margin-left: 10px;
+    margin-bottom: 10px;
+   
+  }
+  
+  .custom-button:hover {
+    background-color: #3700b3; /* Darker shade on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+  }
+  
+  .custom-button:active {
+    background-color: #6200ea; /* Maintain original color on active */
+    transform: scale(0.95); /* Slightly shrink on active */
+  }

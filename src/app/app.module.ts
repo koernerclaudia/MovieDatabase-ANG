@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTooltipModule } from '@angular/material/tooltip'; // Import MatTooltipModule
 
 
+
 // simplified API for Angular applications that makes it possible for the client app to communicate with the API or server-side
 
 import { UserRegistrationFormComponent } from './user-registration-form/user-registration-form.component';
