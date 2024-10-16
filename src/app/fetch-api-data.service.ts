@@ -29,13 +29,6 @@ export class FetchApiDataService {
     return this.http.post(apiUrl + 'login', userDetails).pipe(catchError(this.handleError));
   }
 
-  // // User Registration
-  // public registerUser(userDetails: any): Observable<any> {
-  //   return this.http.post(apiUrl + 'users', userDetails).pipe(
-  //     catchError(this.handleError)
-  //   );
-  // }
-
   // Get all users
   public getAllUsers(): Observable<any> {
     return this.http.get(apiUrl + 'users', { headers: this.getHeaders() }).pipe(
@@ -106,6 +99,14 @@ export class FetchApiDataService {
       catchError(this.handleError)
     );
   }
+
+    // Get movie by ID
+    public getMovieByID(movieID: string): Observable<any> {
+      return this.http.get(apiUrl + `movies/id/${movieID}`, { headers: this.getHeaders() }).pipe(
+        map(this.extractResponseData),
+        catchError(this.handleError)
+      );
+    }
 
   // Get genre information
   public getGenre(genreType: string): Observable<any> {

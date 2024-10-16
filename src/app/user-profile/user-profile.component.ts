@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar'; // For notifications
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FetchApiDataService } from '../fetch-api-data.service';
+import { map } from 'rxjs';
+
 
 
 @Component({
@@ -17,6 +19,7 @@ export class UserProfileComponent implements OnInit {
   movies: any[] = []; // Fetched movie list
   movie: any = {}; // Movie object to be added to favorites
   movieID: string = ''; // Movie ID to be added to favorites
+  id: string = ''; // Movie ID to be added to favorites
   userForm: FormGroup;
   username: string = '';
   token: string = localStorage.getItem('token') || '';
@@ -65,7 +68,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   private fetchFavoriteMoviesDetails() {
-    const movieRequests = this.FavoriteMovieIDs.map(id => this.fetchApiData.getMovieByTitle(this.movie.Title)); // Using id directly
+    const movieRequests = this.FavoriteMovieIDs.map(id => this.fetchApiData.getMovieByID(this.movieID)); // Using id directly
     Promise.all(movieRequests).then(movies => {
         this.FavoriteMovies = movies; // Assign the fetched movies
         console.log('Fetched favorite movies:', this.FavoriteMovies);
@@ -89,19 +92,19 @@ updateProfile() {
   if (this.userForm.get('email')?.value) {
     updatedUser.email = this.userForm.get('email')?.value;
   }
-   // Check if the user has favorite movies and display them
-  //  if (this.user.FavoriteMovies && this.user.FavoriteMovies.length > 0) {
-  //   this.displayFavoriteMovies(this.user.FavoriteMovies);
-  // }
+
+  console.log('Updated user data:', updatedUser);
 
   // If no fields are updated, show a message
   if (!Object.keys(updatedUser).length) {
+    console.log('No fields were updated.');
     this.snackBar.open('Please update at least one field.', 'Close', {
       duration: 3000,
       panelClass: ['custom-snackbar', 'mat-elevation-z4']
     });
     return;
   }
+   
 
   const headers = new HttpHeaders({
     Authorization: `Bearer ${this.token}`,
@@ -120,6 +123,7 @@ updateProfile() {
         // Save updated user details
         this.user = updatedUser;
         localStorage.setItem('user', JSON.stringify(this.user));
+        console.log('User profile successfully updated:', this.user);
 
         this.snackBar.open('Profile updated successfully!', 'Close', {
           duration: 3000,
@@ -133,24 +137,38 @@ updateProfile() {
           duration: 3000,
           panelClass: ['custom-snackbar', 'mat-elevation-z4']
         });
+        console.error('Error updating user profile:', error);
       }
     );
+
+    
 }
 
- // Deregister account
+// Deregister account
 async deleteAccount() {
   if (confirm('Are you sure you want to delete your account? You will be logged out and your data will be lost.')) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`,
     });
+
     console.log('Attempting to delete account for user:', this.user.username); // Log the username
+
     try {
-      // Await the HTTP delete request
-      await this.http
-        .delete(`https://cmdb-b8f3cd58963f.herokuapp.com/users/${this.user.username}`, { headers })
-        .toPromise(); // Convert the Observable to a Promise
-        localStorage.clear();
-        console.log('Account deletion successful. Logging out user.'); // Log success of account deletion
+
+      const response = await this.http
+      .delete(`https://cmdb-b8f3cd58963f.herokuapp.com/users/${this.user.username}`, { headers, responseType: 'text' }) // Add responseType: 'text'
+      .toPromise(); // Convert the Observable to a Promise
+    
+    // Log the response from the server for debugging
+    console.log('Response from server:', response); 
+
+      // // Await the HTTP delete request
+      // await this.http
+      //   .delete(`https://cmdb-b8f3cd58963f.herokuapp.com/users/${this.user.username}`, { headers, responseType: 'text' }) // Add responseType: 'text'
+      //   .toPromise(); // Convert the Observable to a Promise
+
+      localStorage.clear();
+      console.log('Account deletion successful. Logging out user.'); // Log success of account deletion
 
       // If the request is successful, log the user out
       this.logoutUser(); // Call logoutUser to handle logout
@@ -160,7 +178,7 @@ async deleteAccount() {
         panelClass: ['custom-snackbar', 'mat-elevation-z4']
       });
 
-      this.router.navigate(['/signup']); // Redirect after logout
+      this.router.navigate(['/welcome']); // Redirect after logout
     } catch (error) {
       console.error('Error deleting account:', error); // Log the error message
       this.snackBar.open('Failed to delete account. Try again.', 'Close', {
@@ -171,13 +189,13 @@ async deleteAccount() {
   } else {
     console.log('Account deletion was cancelled by the user.'); // Log if user cancels
   }
-    
 }
+
 
 // Logs the user out of the system and sends them back to the welcome view
 logoutUser(): void {
   localStorage.clear();
-  this.router.navigate(['welcome']); // routes to the 'movie-card' view
+  this.router.navigate(['/welcome']); // routes to the 'movie-card' view
   this.snackBar.open("You've been logged out", 'OK', {
     duration: 2000,
     panelClass: ['custom-snackbar', 'mat-elevation-z4']

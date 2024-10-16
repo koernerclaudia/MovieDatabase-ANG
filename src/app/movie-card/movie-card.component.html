@@ -7,7 +7,7 @@
     <mat-card-content>
       <h2>{{movie.Title}}</h2>
       <p>Directed by: {{movie.Director.Name}}</p>
-      <p>Main Actors: {{movie.Actors}}</p>
+      <p>Main Actors: {{ movie.Actors.join(', ') }}</p>
       <p>Genre: {{movie.Genre.Type}}</p>
     </mat-card-content>
 
