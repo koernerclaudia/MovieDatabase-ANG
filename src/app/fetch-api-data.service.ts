@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
+
 const apiUrl = 'https://cmdb-b8f3cd58963f.herokuapp.com/';
 @Injectable({
   providedIn: 'root'
@@ -99,6 +100,7 @@ export class FetchApiDataService {
       catchError(this.handleError)
     );
   }
+
 
     // Get movie by ID
     public getMovieByID(movieID: string): Observable<any> {

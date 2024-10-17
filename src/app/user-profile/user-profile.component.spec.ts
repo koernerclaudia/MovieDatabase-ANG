@@ -1,23 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { TestBed } from '@angular/core/testing';
+import { FetchApiDataService } from '../fetch-api-data.service';
 
-import { UserProfileComponent } from './user-profile.component';
+describe('FetchApiDataService', () => {
+  let service: FetchApiDataService;
 
-describe('UserProfileComponent', () => {
-  let component: UserProfileComponent;
-  let fixture: ComponentFixture<UserProfileComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [UserProfileComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(UserProfileComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientModule], // Import HttpClientModule here
+      providers: [FetchApiDataService]
+    });
+    service = TestBed.inject(FetchApiDataService);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should be created', () => {
+    expect(service).toBeTruthy();
   });
 });

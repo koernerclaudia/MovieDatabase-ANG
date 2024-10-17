@@ -1,5 +1,8 @@
 <!-- src/app/movie-card/movie-card.component.html -->
 <app-nav-bar></app-nav-bar>
+
+
+
 <div style="display: flex; flex-wrap: wrap; min-width: 300px;">
   <mat-card class="custom-card" *ngFor="let movie of movies;">
     <img [src]="movie.ImageURL" />

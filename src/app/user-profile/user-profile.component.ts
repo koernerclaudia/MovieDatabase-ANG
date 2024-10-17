@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar'; // For notifications
@@ -67,16 +67,33 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+
   private fetchFavoriteMoviesDetails() {
-    const movieRequests = this.FavoriteMovieIDs.map(id => this.fetchApiData.getMovieByID(this.movieID)); // Using id directly
-    Promise.all(movieRequests).then(movies => {
+    // Create an array of Promises for each movie request
+    const movieRequests = this.FavoriteMovieIDs.map(id => 
+      this.fetchApiData.getMovieByID(id).toPromise() // Convert the Observable to a Promise
+    );
+  
+    Promise.all(movieRequests)
+      .then(movies => {
         this.FavoriteMovies = movies; // Assign the fetched movies
         console.log('Fetched favorite movies:', this.FavoriteMovies);
-    }).catch(error => {
+  
+        // Log the structure of each movie to inspect available properties
+        this.FavoriteMovies.forEach(movie => {
+          console.log('Fetched Movie Structure:', movie); // Inspect the entire movie object
+        });
+  
+        // Log the titles of the favorite movies
+        this.FavoriteMovies.forEach(movie => {
+          console.log('Favorite Movie Title:', movie.Title); // Log each movie title
+        });
+      })
+      .catch(error => {
         console.error('Error fetching favorite movies:', error);
-    });
-}
-
+      });
+  }
+  
 
   // Update user profile
 updateProfile() {
@@ -140,8 +157,6 @@ updateProfile() {
         console.error('Error updating user profile:', error);
       }
     );
-
-    
 }
 
 // Deregister account
@@ -161,11 +176,6 @@ async deleteAccount() {
     
     // Log the response from the server for debugging
     console.log('Response from server:', response); 
-
-      // // Await the HTTP delete request
-      // await this.http
-      //   .delete(`https://cmdb-b8f3cd58963f.herokuapp.com/users/${this.user.username}`, { headers, responseType: 'text' }) // Add responseType: 'text'
-      //   .toPromise(); // Convert the Observable to a Promise
 
       localStorage.clear();
       console.log('Account deletion successful. Logging out user.'); // Log success of account deletion
