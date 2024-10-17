@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "e2e": "ng e2e",
-    "docs": "typedoc"
+    "out": "typedoc"
   },
   "private": true,
   "dependencies": {
