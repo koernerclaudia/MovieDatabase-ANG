@@ -32,6 +32,6 @@
 
   "typedocOptions": {
     "entryPoints": ["src/**/*.ts"],
-    "out": "docs"
+    "out": "out"
 }
 }
