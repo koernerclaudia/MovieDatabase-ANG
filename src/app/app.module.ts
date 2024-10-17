@@ -8,9 +8,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
 
+
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { MatCardModule, MatCardActions } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -53,9 +54,13 @@ const appRoutes: Routes = [
     MovieDetailsComponent,
     NavBarComponent,
     UserProfileComponent,
+
+    
   ],
 
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
 
   exports: [RouterModule], // This fixed my 'router-outlet' is not a known element: error
   imports: [
@@ -68,6 +73,7 @@ const appRoutes: Routes = [
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    MatCardActions,
     MatFormFieldModule,
     MatSnackBarModule,
     MatIconModule,

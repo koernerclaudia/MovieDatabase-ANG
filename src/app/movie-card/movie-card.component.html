@@ -31,6 +31,7 @@
         <mat-icon *ngIf="isFavorite(movie._id)">favorite</mat-icon>
         <mat-icon *ngIf="!isFavorite(movie._id)">favorite_border</mat-icon>
       </button>
+      <a mat-button [routerLink]="['/movies', movie._id]" matTooltip="View Details">View Details</a>
     </mat-card-actions>
   </mat-card>
 

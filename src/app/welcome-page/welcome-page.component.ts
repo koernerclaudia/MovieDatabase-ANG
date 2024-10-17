@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginFormComponent } from '../login-form/login-form.component';
 import { UserRegistrationFormComponent } from '../user-registration-form/user-registration-form.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogActions } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-welcome-page',

@@ -8,12 +8,20 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class GenreInfoComponent {
 
+
+/**
+ * 
+ * @param data 
+ * @param dialogRef 
+ */
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { Name: string; Description: string },  // Receive genre data
     public dialogRef: MatDialogRef<GenreInfoComponent>
   ) {}
 
-  // Function to close the dialog
+  /**
+   * Function to close the dialog
+   */
   closeDialog(): void {
     this.dialogRef.close();
   }

@@ -101,6 +101,12 @@ export class FetchApiDataService {
     );
   }
 
+  getMovie(movieId: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}` // Add token to headers
+    });
+    return this.http.get<any>(apiUrl + `movies/${movieId}`, { headers });
+  }
 
     // Get movie by ID
     public getMovieByID(movieID: string): Observable<any> {
