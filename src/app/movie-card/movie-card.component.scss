@@ -2,11 +2,35 @@
     border-radius: 16px; /* Round corners */
     overflow: hidden;    /* Ensures child elements like image stay within bounds */
     flex: 1 1 auto; 
-    width: 300px; 
+    max-width: 350px; 
     margin: 10px; 
     height: 450px;
     padding-bottom: 10px;
   }
+
+  .title {
+    white-space: nowrap;          /* Prevents the text from wrapping */
+    overflow: hidden;             /* Hides the overflowed text */
+    text-overflow: ellipsis;      /* Adds "..." when the text overflows */
+    width: 100%;                  /* Make sure to set a fixed width */
+  }
+  
+
+.search-container {
+    margin: 20px auto;
+    text-align: center;
+  }
+
+.search-box {
+  width: 65%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  color: #292929;
+
+}
+
   
   h2 {
     font-size: 24px;
@@ -38,6 +62,7 @@ p {
     padding: 5px 10px;
   }
 
+
   .cards {
     display: flex;
     flex-wrap: wrap; /* Wrap cards to next row */
@@ -45,20 +70,36 @@ p {
     gap: 10px; /* Space between cards */
   }
 
+  /* To ensure that when there's only one card, it doesn't stretch */
+@media (min-width: 768px) {
+  .custom-card {
+    flex: 1 1 250px; /* Flex property for larger screens */
+  }
+}
+
+
     /* Responsive Styles */
     @media (max-width: 500px) {
       div {padding: 5px;
       margin:auto}
 
-      .custom-card {
-        border-radius: 16px; /* Round corners */
-        overflow: hidden;    /* Ensures child elements like image stay within bounds */
-        flex: 1 1 auto; 
-        width: 100%; 
-        margin: 10px; 
-        height: 450px;
-        padding-bottom: 10px;
-      }
+      
+      /* Container for all movie cards */
+.movies-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the movie cards */
+  gap: 20px; /* Add some space between the cards */
+}
+
+/* Style for individual movie cards */
+.custom-card {
+  width: 250px; /* Set a fixed width for movie cards */
+  min-width: 250px; /* Ensure a minimum width */
+  max-width: 250px;
+  margin: 10px; /* Add margin for spacing */
+  flex: 0 0 auto; /* Prevent cards from stretching */
+}
 
 
     }

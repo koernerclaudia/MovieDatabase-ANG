@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 /**
  * This component displays the user registration form.
  * The selector defines the custom HTML element into which this component will render.
- * The @Component decorator adds metadata to the class.
+ * The Component decorator adds metadata to the class.
  */
 @Component({
   selector: 'app-user-registration-form',
@@ -18,7 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class UserRegistrationFormComponent implements OnInit {
 
   /**
-   * The @Input decorator defines the component’s input.
+   * The Input decorator defines the component’s input.
    * @type {{ username: string, password: string, email: string, Birthday: string }}
    */
   @Input() userData = { username: '', password: '', email: '', Birthday: '' };
