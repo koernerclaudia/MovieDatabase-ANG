@@ -32,13 +32,13 @@ import { DirectorInfoComponent } from './director-info/director-info.component';
 import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NavBarComponent } from './navbar/navbar.component';
-
-
+// import { MovieviewComponent } from './movieview/movieview.component';
 
 const appRoutes: Routes = [
   { path: 'welcome', component: WelcomePageComponent },
   { path: 'movies', component: MovieCardComponent },
   { path: 'profile', component: UserProfileComponent },
+  // { path: 'movie-details/:title', component: MovieDetailsComponent },
   { path: '', redirectTo: 'welcome', pathMatch: 'prefix' },
 ];
 
@@ -52,6 +52,7 @@ const appRoutes: Routes = [
     GenreInfoComponent,
     DirectorInfoComponent,
     MovieDetailsComponent,
+    // MovieviewComponent,
     NavBarComponent,
     UserProfileComponent,
 

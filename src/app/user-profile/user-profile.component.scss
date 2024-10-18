@@ -86,14 +86,21 @@ html, body {
   border-radius: 16px; /* Round corners */
   overflow: hidden;    /* Ensures child elements like image stay within bounds */
   flex: 1 1 auto; 
-  width: 300px; 
+  max-width: 200px; 
   margin: 10px; 
-  height: 450px;
+  height: 350px;
   padding-bottom: 10px;
+  align-items: center; /* Center horizontally */
 }
 
 h2 {
   font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2em;
+}
+
+h3 {
+  font-size: 18px;
   font-weight: 600;
   line-height: 1.2em;
 }

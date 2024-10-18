@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FetchApiDataService } from '../fetch-api-data.service';
-import { MatDialog } from '@angular/material/dialog'; // Import MatDialog
-import { GenreInfoComponent } from '../genre-info/genre-info.component'; // Import the GenreInfoComponent
-import { DirectorInfoComponent } from '../director-info/director-info.component'; // Import the DirectorInfoComponent
+import { MatDialog } from '@angular/material/dialog'; 
+import { Router } from '@angular/router';
+import { GenreInfoComponent } from '../genre-info/genre-info.component'; 
+import { DirectorInfoComponent } from '../director-info/director-info.component'; 
 import { MovieDetailsComponent } from '../movie-details/movie-details.component';
 
 @Component({
@@ -12,62 +13,62 @@ import { MovieDetailsComponent } from '../movie-details/movie-details.component'
 })
 export class MovieCardComponent implements OnInit {
   movies: any[] = [];
-  FavoriteMovies: string[] = []; // Store user's favorite movies
+  filteredMovies: any[] = []; // To hold filtered movies
+  searchTerm: string = '';    // To store the search input
+  FavoriteMovies: string[] = []; 
   user: any = JSON.parse(localStorage.getItem('user') || '{}');
   token: string = localStorage.getItem('token') || '';
 
   constructor(
     public fetchApiData: FetchApiDataService, 
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.checkLocalStorage();
-    console.log('local storage:', this.user);
     this.loadFavoritesFromLocalStorage();
     this.getMovies();
-    this.loadUserFavorites(); // Load favorites from the API
   }
 
   private checkLocalStorage() {
-    // Only access localStorage in a browser environment
     if (typeof window !== 'undefined') {
       this.user = JSON.parse(localStorage.getItem('user') || '{}');
       this.token = localStorage.getItem('token') || '';
-      this.loadFavoritesFromLocalStorage(); // Load favorite movies if needed
+      this.loadFavoritesFromLocalStorage();
     }
   }
 
+  // Fetch all movies and initialize the filteredMovies array
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((resp: any) => {
       this.movies = resp;
-      console.log(this.movies);
-      return this.movies;
+      this.filteredMovies = this.movies; // Initially, show all movies
     });
   }
 
-  // Load favorite movies from local storage
   loadFavoritesFromLocalStorage(): void {
     const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
     this.FavoriteMovies = storedUser.FavoriteMovies || [];
   }
 
-  // Load user's favorite movies from the API
-  loadUserFavorites(): void {
-    if (this.user.username) {
-      this.fetchApiData.getFavoriteMovies().subscribe((resp: any) => {
-        this.FavoriteMovies = resp; // Assuming the response is an array of movie IDs
-        this.updateLocalStorageFavorites(); // Sync local storage
-      });
-    }
+  // Function to filter movies based on searchTerm (title, actor, or director)
+  filterMovies(): void {
+    const searchTermLower = this.searchTerm.toLowerCase(); // Convert search term to lowercase
+
+    this.filteredMovies = this.movies.filter(movie => {
+      // Check if movie title, director name, or any actor name contains the search term
+      return movie.Title.toLowerCase().includes(searchTermLower) ||
+             movie.Director.Name.toLowerCase().includes(searchTermLower) ||
+             movie.Actors.some((actor: string) => actor.toLowerCase().includes(searchTermLower));
+    });
   }
 
-  // Function to open Genre Info Dialog
   openGenreDialog(genre: any): void {
     this.dialog.open(GenreInfoComponent, {
       data: {
-        Name: genre.Type,         // Pass the genre name
-        Description: genre.Description  // Pass the genre description
+        Name: genre.Type,         
+        Description: genre.Description
       },
       width: '500px'
     });
@@ -83,24 +84,16 @@ export class MovieCardComponent implements OnInit {
     });
   }
 
-  /**
-   * Opens a dialog to display movie synopsis about movie selected.
-   * @param movie - The movie object.
-   */
-
-
   openSynopsisDialog(movie: any): void {
-    console.log('Movie Data:', movie);  // Log the movie object
     this.dialog.open(MovieDetailsComponent, {
       data: {
-        Name: movie.Title,  // Pass the title
-        Description: movie.Description  // Pass the description
+        Name: movie.Title,  
+        Description: movie.Description
       },
       width: '500px'
     });
   }
 
-  // Toggle favorite status of a movie
   toggleFavorite(movieId: string): void {
     if (this.isFavorite(movieId)) {
       this.removeFromFavorites(movieId);
@@ -109,38 +102,31 @@ export class MovieCardComponent implements OnInit {
     }
   }
 
-  // Check if a movie is in the user's list of favorite movies
   isFavorite(movieId: string): boolean {
     return this.FavoriteMovies.includes(movieId);
   }
 
-  // Add a movie to the user's favorites
   addMovieToFavorites(movieId: string): void {
     if (!this.FavoriteMovies.includes(movieId)) {
       this.FavoriteMovies.push(movieId);
-      // Call the API to add the movie to favorites
       this.fetchApiData.addMovieToFavorites(this.user.username, movieId).subscribe((response: any) => {
-        console.log('Movie added to favorites:', response);
-        this.updateLocalStorageFavorites(); // Sync local storage
+        this.updateLocalStorageFavorites();
       }, (error: any) => {
         console.error('Error adding movie to favorites:', error);
       });
     }
   }
 
-  // Remove a movie from the user's favorites
   removeFromFavorites(movieId: string): void {
     this.fetchApiData.removeMovieFromFavorites(this.user.username, movieId).subscribe((response: any) => {
       const index = this.FavoriteMovies.indexOf(movieId);
       if (index > -1) {
         this.FavoriteMovies.splice(index, 1);
-        this.updateLocalStorageFavorites(); // Sync local storage
-        console.log('Movie removed from favorites:', response);
+        this.updateLocalStorageFavorites();
       }
     });
   }
 
-  // Update local storage with current favorites
   updateLocalStorageFavorites(): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     user.FavoriteMovies = this.FavoriteMovies;
