@@ -1,0 +1,12 @@
+{
+    "entryPoints": ["src/app/index.ts"], // Update to your main entry file
+    "out": "out", // The output directory for generated documentation
+    "name": "CMDB - Movie Database with Angular",
+    "theme": "default",
+    "includeVersion": true,
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "exclude": ["**/*.spec.ts"], // Exclude test files
+    "tsconfig": "./tsconfig.app.json" // Adjust if necessary
+  }
+  

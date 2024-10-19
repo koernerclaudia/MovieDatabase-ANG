@@ -38,6 +38,7 @@ export class UserRegistrationFormComponent implements OnInit {
    * Angular lifecycle hook that is called after data-bound properties are initialized.
    */
   ngOnInit(): void {
+    // Initialization logic can go here if needed
   }
 
   /**
@@ -47,16 +48,20 @@ export class UserRegistrationFormComponent implements OnInit {
    * On failure, it shows an error message.
    */
   registerUser(): void {
-    this.fetchApiData.userRegistration(this.userData).subscribe((result) => {
-      console.log(result);
-      this.dialogRef.close(); // This will close the modal on success!
-      this.snackBar.open("You are signed up!", 'OK', {
-        duration: 3000
-      });
-    }, (result) => {
-      this.snackBar.open("Sign up failed, please try again", 'OK', {
-        duration: 3000
-      });
-    });
+    this.fetchApiData.userRegistration(this.userData).subscribe(
+      (result) => {
+        console.log(result); // Log the result for debugging
+        this.dialogRef.close(); // This will close the modal on success
+        this.snackBar.open("You are signed up!", 'OK', {
+          duration: 3000 // Duration for which the snackbar will be displayed
+        });
+      }, 
+      (error) => {
+        console.error('Sign up error:', error); // Log the error for debugging
+        this.snackBar.open("Sign up failed, please try again", 'OK', {
+          duration: 3000 // Duration for which the snackbar will be displayed
+        });
+      }
+    );
   }
 }
