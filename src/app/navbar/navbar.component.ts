@@ -1,33 +1,52 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, OnInit } from '@angular/core';  // Import Angular core modules
+import { Router } from '@angular/router';  // Import Angular Router for navigation
+import { MatSnackBar } from '@angular/material/snack-bar';  // Import Material Snackbar for notifications
 
+/**
+ * Component for the navigation bar.
+ * 
+ * This component provides navigation functionality for the application,
+ * including a toggleable menu and user logout capabilities.
+ */
 @Component({
-  selector: 'app-nav-bar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+  selector: 'app-nav-bar',  // The component's selector used in HTML
+  templateUrl: './navbar.component.html',  // Path to the component's HTML template
+  styleUrls: ['./navbar.component.scss'],  // Path to the component's styles
 })
 export class NavBarComponent implements OnInit {
+  menuOpen: boolean = false;  // Variable to track the state of the menu (open or closed)
+
+  /**
+   * Creates an instance of NavBarComponent.
+   * 
+   * @param {Router} router - Service for navigating between views in the application.
+   * @param {MatSnackBar} snackBar - Service for displaying notifications to the user.
+   */
   constructor(
-    public router: Router, // You have to add this line to be able to use 'router'
-    public snackBar: MatSnackBar
+    public router: Router,  // Injected Router service for navigation
+    public snackBar: MatSnackBar  // Injected Snackbar service for displaying messages
   ) {}
-  menuOpen: boolean = false;
 
-  toggleMenu() {
-    this.menuOpen = !this.menuOpen;
-  }
-
+  /**
+   * Lifecycle hook that is called after the component has been initialized.
+   */
   ngOnInit(): void {}
 
   /**
-   * Logs the user out of the system and sends them back to the welcome view
+   * Toggles the state of the menu between open and closed.
+   */
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;  // Invert the current menu state
+  }
+
+  /**
+   * Logs the user out of the system and navigates back to the welcome view.
    */
   logoutUser(): void {
-    localStorage.clear();
-    this.router.navigate(['welcome']); // routes to the 'movie-card' view
-    this.snackBar.open("You've been logged out", 'OK', {
-      duration: 2000,
+    localStorage.clear();  // Clear local storage to remove user data
+    this.router.navigate(['welcome']);  // Navigate to the welcome view
+    this.snackBar.open("You've been logged out", 'OK', {  // Display logout notification
+      duration: 2000,  // Duration for which the notification is visible
     });
   }
 }
