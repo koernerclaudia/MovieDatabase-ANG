@@ -1,25 +1,38 @@
-.custom-card {
-    border-radius: 16px; /* Round corners */
-    overflow: hidden;    /* Ensures child elements like image stay within bounds */
-    flex: 1 1 auto; 
-    max-width: 350px; 
-    margin: 10px; 
-    height: 450px;
-    padding-bottom: 10px;
-  }
+.cards {
+  display: flex;
+  flex-wrap: wrap; /* Wrap cards to next row */
+  justify-content: center; /* Center cards horizontally */
+  gap: 10px; /* Space between cards */
+}
 
-  .title {
-    white-space: nowrap;          /* Prevents the text from wrapping */
-    overflow: hidden;             /* Hides the overflowed text */
-    text-overflow: ellipsis;      /* Adds "..." when the text overflows */
-    width: 100%;                  /* Make sure to set a fixed width */
-  }
-  
+.single-movie-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh; /* Adjust the height as needed to center the card vertically */
+}
+
+.custom-card {
+  border-radius: 16px; /* Round corners */
+  overflow: hidden; /* Ensures child elements like image stay within bounds */
+  flex: 1 1 auto;
+  max-width: 350px;
+  margin: 10px;
+  height: 450px;
+  padding-bottom: 10px;
+}
+
+.title {
+  white-space: nowrap; /* Prevents the text from wrapping */
+  overflow: hidden; /* Hides the overflowed text */
+  text-overflow: ellipsis; /* Adds "..." when the text overflows */
+  width: 280px; /* Make sure to set a fixed width */
+}
 
 .search-container {
-    margin: 20px auto;
-    text-align: center;
-  }
+  margin: 20px auto;
+  text-align: center;
+}
 
 .search-box {
   width: 65%;
@@ -28,78 +41,68 @@
   border: 1px solid #ccc;
   border-radius: 16px;
   color: #292929;
-
 }
 
-  
-  h2 {
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 1.2em;
-  }
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2em;
+}
 
 p {
-    font-size: 14px;
-    font-weight: 100;
-    line-height: 1.2em;
-  }
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 1.2em;
+  text-overflow: ellipsis; /* Displays "..." when the text is too long */
+  max-width: 100%;
+}
 
-  img {
-    object-fit: cover;
-  width: 100%;   /* Ensures the image takes up the full width of the container */
+img {
+  object-fit: cover;
+  width: 100%; /* Ensures the image takes up the full width of the container */
   height: 50%; /* Sets a specific height for the image container */
   object-position: top;
-  }
-  
-  mat-card-content {
-    padding: 16px;
-    flex-grow: 1;
-  }
-  
-  mat-card-actions {
-    display: flex;
-    justify-content: space-around;  /* Align the icons next to each other */
-    padding: 5px 10px;
-  }
+}
 
+mat-card-content {
+  padding: 16px;
+  flex-grow: 1;
+}
 
-  .cards {
-    display: flex;
-    flex-wrap: wrap; /* Wrap cards to next row */
-    justify-content: center; /* Center cards horizontally */
-    gap: 10px; /* Space between cards */
-  }
+mat-card-actions {
+  display: flex;
+  justify-content: space-around; /* Align the icons next to each other */
+  padding: 5px 10px;
+}
 
-  /* To ensure that when there's only one card, it doesn't stretch */
+/* To ensure that when there's only one card, it doesn't stretch */
 @media (min-width: 768px) {
   .custom-card {
     flex: 1 1 250px; /* Flex property for larger screens */
   }
 }
 
+/* Responsive Styles */
+@media (max-width: 500px) {
+  div {
+    padding: 5px;
+    margin: auto;
+  }
 
-    /* Responsive Styles */
-    @media (max-width: 500px) {
-      div {padding: 5px;
-      margin:auto}
+  /* Container for all movie cards */
+  .movies-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the movie cards */
+    gap: 20px; /* Add some space between the cards */
+  }
 
-      
-      /* Container for all movie cards */
-.movies-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Center the movie cards */
-  gap: 20px; /* Add some space between the cards */
+  /* Style for individual movie cards */
+  .custom-card {
+    width: 250px; /* Set a fixed width for movie cards */
+    min-width: 250px; /* Ensure a minimum width */
+    max-width: 250px;
+    margin: 10px; /* Add margin for spacing */
+    flex: 0 0 auto; /* Prevent cards from stretching */
+  }
 }
-
-/* Style for individual movie cards */
-.custom-card {
-  width: 250px; /* Set a fixed width for movie cards */
-  min-width: 250px; /* Ensure a minimum width */
-  max-width: 250px;
-  margin: 10px; /* Add margin for spacing */
-  flex: 0 0 auto; /* Prevent cards from stretching */
-}
-
-
-    }

@@ -1,17 +1,16 @@
-<mat-card style="align-items: center;" >
+<mat-card style="align-items: center;">
 	<mat-card-header>
-	  <mat-card-title>
-		<h4>{{ data.Name }}</h4> <!-- Access movie.movie -->
-	  </mat-card-title>
+		<mat-card-title>
+			<h4>{{ data.Name }}</h4> <!-- Access movie.movie -->
+		</mat-card-title>
 	</mat-card-header>
 	<mat-card-content>
-	  Blurb: {{ data.Description }} <!-- Same here, movie.movie -->
+		Blurb: {{ data.Description }} <!-- Same here, movie.movie -->
 	</mat-card-content>
 	<br />
 	<mat-card-actions>
 		<button mat-raised-button class="custom-button" color="primary" (click)="closeDialog()">
-		Close
-	  </button>
+			Close
+		</button>
 	</mat-card-actions>
-  </mat-card>
-  
+</mat-card>

@@ -1,10 +1,48 @@
 <app-nav-bar></app-nav-bar>
 
 <div>
-  <!-- Part 1: Profile Information  -->
+  <!-- Part 1: Favourite Movies  -->
+  <div class="col-item mt-3">
+    <mat-card style="background-color: #292929; padding: 15px; border-radius: 15px; margin: 15px auto; max-width: auto; max-height: auto;">
+      <mat-card-title style="text-align: center;">Favourite movies</mat-card-title>
+      <mat-card-content>
+        <div [ngClass]="{'single-movie-container': FavoriteMovies.length === 1, 'cards': FavoriteMovies.length > 1}">
+          <mat-card class="custom-card" *ngFor="let movie of FavoriteMovies">
+            <img [src]="movie.ImageURL" />
+      
+            <mat-card-content>
+              <h3 class="title">{{movie.Title}}</h3>
+            </mat-card-content>
+      
+            <mat-card-actions>
+              <button mat-icon-button (click)="openGenreDialog(movie.Genre)" aria-label="Genre" matTooltip="Genre"
+                matTooltipPosition="below" matTooltipDelay="300">
+                <mat-icon>category</mat-icon>
+              </button>
+              <button mat-icon-button (click)="openDirectorDialog(movie.Director)" aria-label="Director" matTooltip="Director"
+                matTooltipPosition="below" matTooltipDelay="300">
+                <mat-icon>movie</mat-icon>
+              </button>
+              <button mat-icon-button (click)="openSynopsisDialog(movie)" aria-label="Synopsis" matTooltip="Synopsis"
+                matTooltipPosition="below" matTooltipDelay="300">
+                <mat-icon>description</mat-icon>
+              </button>
+            </mat-card-actions>
+            <mat-card-actions>
+              <button mat-raised-button (click)="removeFromFavorites(movie._id)" class="custom-button">
+                <mat-icon style="color:#ffffff;">favorite</mat-icon>Remove</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+<div>
+  <!-- Part 2: Profile Information  -->
   <div class="col-item mt-3">
     <mat-card style="padding: 15px; background-color: black; border-radius: 15px; margin: 15px auto; max-width: 600px;">
-      <mat-card-title>Profile Information</mat-card-title>
+      <mat-card-title style="text-align: center;">Profile Information</mat-card-title>
       <mat-card-content class="profile-info">
         <p><strong>Username:</strong> {{ user.username }}</p>
         <p><strong>Email:</strong> {{ user.email }}</p>
@@ -12,67 +50,33 @@
     </mat-card>
   </div>
 
-  <!-- Part 2: Change Profile Information -->
+  <!-- Part 3: Change Profile Information -->
   <div class="col-item mt-3">
     <mat-card style="padding: 15px; background-color: black; border-radius: 15px; margin: 15px auto; max-width: 600px;">
-      <mat-card-title>Change Your Info</mat-card-title>
+      <mat-card-title style="text-align: center;">Change Your Info</mat-card-title>
       <mat-card-content>
-      <form [formGroup]="userForm" (ngSubmit)="updateProfile()" class="form-container">
-        <mat-form-field appearance="fill" >
-          <mat-label>Change Username</mat-label>
-          <input matInput formControlName="username" />
-        </mat-form-field>
+        <form [formGroup]="userForm" (ngSubmit)="updateProfile()" class="form-container">
+          <mat-form-field appearance="fill">
+            <mat-label>Change Username</mat-label>
+            <input matInput formControlName="username" />
+          </mat-form-field>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Change Password</mat-label>
-          <input matInput type="password" formControlName="password" />
-        </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Change Password</mat-label>
+            <input matInput type="password" formControlName="password" />
+          </mat-form-field>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Change Email</mat-label>
-          <input matInput formControlName="email" />
-        </mat-form-field>
-        <mat-card-actions class="button-container">
-        <button mat-raised-button class="custom-button" type="submit" >Update Profile</button>
-        <button mat-raised-button class="custom-button" (click)="deleteAccount()">Delete Account</button>
-      </mat-card-actions>
-      </form>
+          <mat-form-field appearance="fill">
+            <mat-label>Change Email</mat-label>
+            <input matInput formControlName="email" />
+          </mat-form-field>
+          <mat-card-actions class="button-container">
+            <button mat-raised-button class="custom-button" type="submit">Update Profile</button>
+            <button mat-raised-button class="custom-button" (click)="deleteAccount()">Delete Account</button>
+          </mat-card-actions>
+        </form>
       </mat-card-content>
     </mat-card>
   </div>
 </div>
 
-
-<!-- Movie cards with filtered movies -->
-<div style="display: flex; flex-wrap: wrap; min-width: 300px;">
-  <mat-card class="custom-card" *ngFor="let movie of FavoriteMovies">
-    <img [src]="movie.ImageURL" />
-
-    <mat-card-content>
-      <h3>{{movie.Title}}</h3>
-    </mat-card-content>
-
-    <mat-card-actions>
-      <button mat-icon-button (click)="openGenreDialog(movie.Genre)" aria-label="Genre" matTooltip="Genre"
-        matTooltipPosition="below" matTooltipDelay="300">
-        <mat-icon>category</mat-icon>
-      </button>
-      <button mat-icon-button (click)="openDirectorDialog(movie.Director)" aria-label="Director" matTooltip="Director"
-        matTooltipPosition="below" matTooltipDelay="300">
-        <mat-icon>movie</mat-icon>
-      </button>
-      <button mat-icon-button (click)="openSynopsisDialog(movie)" aria-label="Synopsis"
-        matTooltip="Synopsis" matTooltipPosition="below" matTooltipDelay="300">
-        <mat-icon>description</mat-icon>
-      </button>
-      </mat-card-actions>
-      <mat-card-actions>
-      <button
-      mat-raised-button
-      (click)="removeFromFavorites(movie._id)"
-      class="custom-button"
-    >
-     <mat-icon style="color:#6200ea;">heart</mat-icon>Remove</button>
-    </mat-card-actions>
-  </mat-card>
-</div>

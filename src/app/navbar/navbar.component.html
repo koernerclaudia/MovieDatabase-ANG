@@ -1,42 +1,24 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <img src="assets/logo-small.png" alt="CMDB Logo" />
+    <button (click)="toggleMenu()" class="hamburger" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
 
+  <ul [class.active]="menuOpen" class="navbar-menu">
+    <button style="margin: 0 10px;" mat-button routerLink="/movies" class=" custom-button">
+      Browse Movies
+    </button>
 
+    <button style="margin: 0 10px;" mat-button routerLink="/profile" class=" custom-button">
+      My Profile
+    </button>
 
-  <nav class="navbar">
-    <div class="navbar-brand">
-      <a href="#">CMDB</a>
-      <button (click)="toggleMenu()" class="hamburger" aria-label="Toggle menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
-    </div>
-  
-    <ul [class.active]="menuOpen" class="navbar-menu">
-      <button style="margin: 0 10px;"
-          mat-button
-          routerLink="/movies" 
-          class=" custom-button"
-        >
-                  Browse Movies
-              </button>
-
-        <button style="margin: 0 10px;"
-          mat-button
-         
-          routerLink="/profile" 
-          class=" custom-button"
-        >
-                  My Profile
-              </button>
-            
-        <button
-          mat-button
-          color="primary"
-          class="logout" 
-          (click)="logoutUser()" 
-          routerLink="/"
-        >
-          Logout
-        </button>
-    </ul>
-  </nav>
+    <button mat-button color="primary" class="logout" (click)="logoutUser()" routerLink="/">
+      Logout
+    </button>
+  </ul>
+</nav>

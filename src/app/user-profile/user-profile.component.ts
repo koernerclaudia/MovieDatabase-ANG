@@ -8,6 +8,7 @@ import { GenreInfoComponent } from '../genre-info/genre-info.component';
 import { DirectorInfoComponent } from '../director-info/director-info.component'; 
 import { MovieDetailsComponent } from '../movie-details/movie-details.component';
 import { MatDialog } from '@angular/material/dialog'; 
+import { MatIconModule } from '@angular/material/icon';
 
 /**
  * Component for managing the user profile, including viewing and updating user details,
