@@ -1,27 +1,44 @@
-* {
-  box-sizing: border-box; /* Include padding and border in element's total width and height */
-  color: #ffffff; /* Default text color */
-  font-family: Arial, Helvetica, sans-serif; /* Default font */
-  margin: auto;
+.cards {
+  display: flex;
+  flex-wrap: wrap; /* Wrap cards to next row */
+  justify-content: center; /* Center cards horizontally */
+  gap: 10px; /* Space between cards */
 }
- 
+
+.single-movie-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  
+}
+
+.custom-card {
+  border-radius: 16px; /* Round corners */
+  overflow: hidden;    /* Ensures child elements like image stay within bounds */
+  flex: 1 1 220px; 
+  max-width: 220px; 
+  margin: 10px; 
+  height: 310px;
+  padding-bottom: 10px;
+}
+
 img {
   max-width: 100%; /* Responsive images */
   height: auto; /* Prevent image distortion */
-}
-
-html, body {
-  font-family: 'Roboto', sans-serif; /* Use Roboto font */
-  color: #ffffff;
-  background-image: url('/src/assets/img/hollywood.jpg');
-  align-items: center; /* Center horizontally */
-  
 }
 
 .form-container {
   display: flex;
   flex-direction: column;
   gap: 16px; /* Add spacing between fields if necessary */
+}
+
+.title {
+  white-space: nowrap; /* Prevents the text from wrapping */
+  overflow: hidden; /* Hides the overflowed text */
+  text-overflow: ellipsis; /* Adds "..." when the text overflows */
+  width: 180px; /* Make sure to set a fixed width */
 }
 
 .main-page {
@@ -31,21 +48,20 @@ html, body {
   align-items: center; /* Center horizontally */
   height: 100vh; /* Full viewport height */
   text-align: center; /* Center text */
-
 }
-
 
 .user-profile {
   display: flex;
   flex-direction: column;
   gap: 16px;
 
-  @media(min-width: 760px) {
+  @media (min-width: 501px) {
     flex-direction: row;
     justify-content: space-between;
   }
 
-  .user-info, .user-form {
+  .user-info,
+  .user-form {
     flex: 1;
     margin: 16px;
   }
@@ -82,16 +98,6 @@ html, body {
 }
 
 
-.custom-card {
-  border-radius: 16px; /* Round corners */
-  overflow: hidden;    /* Ensures child elements like image stay within bounds */
-  flex: 1 1 auto; 
-  max-width: 200px; 
-  margin: 10px; 
-  height: 350px;
-  padding-bottom: 10px;
-  align-items: center; /* Center horizontally */
-}
 
 h2 {
   font-size: 24px;
@@ -113,9 +119,9 @@ p {
 
 img {
   object-fit: cover;
-width: 100%;   /* Ensures the image takes up the full width of the container */
-height: 50%; /* Sets a specific height for the image container */
-object-position: top;
+  width: 100%; /* Ensures the image takes up the full width of the container */
+  height: 50%; /* Sets a specific height for the image container */
+  object-position: top;
 }
 
 mat-card-content {
@@ -125,22 +131,6 @@ mat-card-content {
 
 mat-card-actions {
   display: flex;
-  justify-content: space-around;  /* Align the icons next to each other */
+  justify-content: space-around; /* Align the icons next to each other */
   padding: 5px 10px;
 }
-
-/* Style the entire snackbar container */
-.custom-snackbar {
-  background-color: #2196f3; /* Blue background */
-  color: white; /* White text */
-  padding: 16px; /* Increase padding */
-  border-radius: 4px; /* Add some rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow */
-}
-
-/* Style the action button */
-.custom-snack-bar .mat-simple-snackbar-action {
-  color: #ffeb3b; /* Yellow color for the action button */
-  font-weight: bold;
-}
-

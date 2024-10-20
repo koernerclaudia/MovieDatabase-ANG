@@ -2,24 +2,19 @@
 
 <!-- Search box for movies -->
 <div class="search-container">
-  <input 
-    type="text" 
-    placeholder="Search by title, actor, or director..." 
-    [(ngModel)]="searchTerm" 
-    (input)="filterMovies()" 
-    class="search-box"
-  />
+  <input type="text" placeholder="Search by title, actor, or director..." [(ngModel)]="searchTerm"
+    (input)="filterMovies()" class="search-box" />
 </div>
 
 <!-- Movie cards with filtered movies -->
-<div style="display: flex; flex-wrap: wrap; min-width: 300px;">
+<div [ngClass]="{'single-movie-container': filteredMovies.length === 1, 'cards': filteredMovies.length > 1}">
   <mat-card class="custom-card" *ngFor="let movie of filteredMovies;">
     <img [src]="movie.ImageURL" />
 
-    <mat-card-content>
+    <mat-card-content style="padding: 10px;">
       <h2 class="title">{{movie.Title}}</h2>
       <p>Directed by: {{movie.Director.Name}}</p>
-      <p>Main Actors: {{ movie.Actors.join(', ') }}</p>
+      <p>Main Actors: {{ movie.Actors.slice(0, 3).join(', ') }}</p>
       <p>Genre: {{movie.Genre.Type}}</p>
     </mat-card-content>
 
@@ -32,8 +27,8 @@
         matTooltipPosition="below" matTooltipDelay="300">
         <mat-icon>movie</mat-icon>
       </button>
-      <button mat-icon-button (click)="openSynopsisDialog(movie)" aria-label="Synopsis"
-        matTooltip="Synopsis" matTooltipPosition="below" matTooltipDelay="300">
+      <button mat-icon-button (click)="openSynopsisDialog(movie)" aria-label="Synopsis" matTooltip="Synopsis"
+        matTooltipPosition="below" matTooltipDelay="300">
         <mat-icon>description</mat-icon>
       </button>
       <button mat-icon-button (click)="toggleFavorite(movie._id)">
@@ -43,55 +38,3 @@
     </mat-card-actions>
   </mat-card>
 </div>
-
-
-
-<!-- src/app/movie-card/movie-card.component.html
-<app-nav-bar></app-nav-bar>
-
-<div class="search-container">
-  <input 
-    type="text" 
-    placeholder="Search by title, actor, or director..." 
-    [(ngModel)]="searchTerm" 
-    (input)="filterMovies()" 
-    class="search-box"
-  />
-</div>
-
-<div style="display: flex; flex-wrap: wrap; min-width: 300px;">
-  <mat-card class="custom-card" *ngFor="let movie of movies;">
-    <img [src]="movie.ImageURL" />
-
-    <mat-card-content>
-      <h2>{{movie.Title}}</h2>
-      <p>Directed by: {{movie.Director.Name}}</p>
-      <p>Main Actors: {{ movie.Actors.join(', ') }}</p>
-      <p>Genre: {{movie.Genre.Type}}</p>
-    </mat-card-content>
-
-    <mat-card-actions>
-      <button mat-icon-button (click)="openGenreDialog(movie.Genre)" aria-label="Genre" matTooltip="Genre"
-        matTooltipPosition="below" matTooltipDelay="300">
-        <mat-icon>category</mat-icon>
-      </button>
-      <button mat-icon-button (click)="openDirectorDialog(movie.Director)" aria-label="Director" matTooltip="Director"
-        matTooltipPosition="below" matTooltipDelay="300">
-        <mat-icon>movie</mat-icon>
-      </button>
-      <button mat-icon-button (click)="openSynopsisDialog(movie)" aria-label="Synopsis"
-        matTooltip="Synopsis" matTooltipPosition="below" matTooltipDelay="300">
-        <mat-icon>description</mat-icon>
-      </button>
-      <button mat-icon-button (click)="toggleFavorite(movie._id)">
-        <mat-icon *ngIf="isFavorite(movie._id)">favorite</mat-icon>
-        <mat-icon *ngIf="!isFavorite(movie._id)">favorite_border</mat-icon>
-      </button>
-       <a (click)="openMovieViewPage(movie)">View Movie Details</a> 
-
-      
-
-    </mat-card-actions>
-  </mat-card>
-
-</div> -->

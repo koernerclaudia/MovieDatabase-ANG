@@ -1,17 +1,16 @@
-
-  <mat-card style="align-items: center;">
+<mat-card style="align-items: center;">
 	<mat-card-header>
-	  <mat-card-title>
-		<h5>Director: {{ data.Name }}</h5> <!-- Access movie.movie -->
-	  </mat-card-title>
+		<mat-card-title>
+			<h5>Director: {{ data.Name }}</h5> <!-- Access movie.movie -->
+		</mat-card-title>
 	</mat-card-header>
 	<mat-card-content>
-	  Born in {{ data.Birthyear }} <!-- Same here, movie.movie -->
+		Born in {{ data.Birthyear }} <!-- Same here, movie.movie -->
 	</mat-card-content>
 	<br />
 	<mat-card-actions>
-	  <button mat-raised-button class="custom-button" color="primary" (click)="closeDialog()">
-		Close
-	  </button>
+		<button mat-raised-button class="custom-button" color="primary" (click)="closeDialog()">
+			Close
+		</button>
 	</mat-card-actions>
-  </mat-card>
+</mat-card>

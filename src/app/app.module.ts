@@ -55,7 +55,6 @@ const appRoutes: Routes = [
     GenreInfoComponent, // Genre information component
     DirectorInfoComponent, // Director information component
     MovieDetailsComponent, // Movie details component
-    // MovieviewComponent, // Uncomment to use this component
     NavBarComponent, // Navigation bar component
     UserProfileComponent, // User profile component
   ],
