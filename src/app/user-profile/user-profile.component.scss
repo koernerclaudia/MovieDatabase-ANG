@@ -55,7 +55,7 @@ img {
   flex-direction: column;
   gap: 16px;
 
-  @media (min-width: 501px) {
+  @media (min-width: 768px) {
     flex-direction: row;
     justify-content: space-between;
   }
